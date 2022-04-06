@@ -8,13 +8,14 @@ namespace Demo_oop.demo
 {
     public class ProductDemo
     {
-        public void createProductTest()
+        public Product? product { get; set; }
+        public void CreateProductTest()
         {
-
+            product = new Product() { Id = 1, Name="productTest", CategoryId = 1 };
         }
-        public void printProduct(Product product)
+        public void PrintProduct(Product product)
         {
-            
+            Console.WriteLine("id: " + product.Id + "; name: " + product.Name + "; categoryId: " + product.CategoryId);
         }
     }
 }

@@ -1,14 +1,12 @@
 ﻿using Demo_oop.entity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+using OOP_trung.entity;
+using System.Text.Json;
 namespace Demo_oop.dao
 {
 
     public class Database
     {
-        private static Database instants = null;
+        private static Database? instants = null;
         List<Product> productTable = new List<Product>();
         List<Category> categoryTable = new List<Category>();
         List<Accessotion> accessoryTable = new List<Accessotion>();
@@ -24,144 +22,150 @@ namespace Demo_oop.dao
             }
             return instants;
         }
-        public void InsertTable(string name, Dictionary<string, string> row)
+        public void InsertTable(string name, BaseObj row)
         {
             if (name == "product")
             {
-                Product pro = new Product();
-                pro.id = int.Parse(row["id"]);
-                pro.name = row["name"];
-                productTable.Add(pro);
+                Product _row = (Product)row;
+                Product product = new Product
+                {
+                    Id = _row.Id,
+                    Name = _row.Name,
+                    CategoryId = _row.CategoryId
+                };
+                productTable.Add(product);
             }
             else if (name == "category")
             {
-                Category cate = new Category();
-                cate.id = int.Parse(row["id"]);
-                cate.name = row["name"];
-                categoryTable.Add(cate);
+                Category _row = (Category)row;
+                Category category = new Category()
+                {
+                    Id = _row.Id,
+                    Name = _row.Name
+                };
+                categoryTable.Add(category);
             }
             else if (name == "accessotion")
             {
-                Accessotion acc = new Accessotion();
-                acc.id = int.Parse(row["id"]);
-                acc.name = row["name"];
-                accessoryTable.Add(acc);
+                Accessotion _row = (Accessotion)row;
+                Accessotion accessotion = new Accessotion
+                {
+                    Id = _row.Id,
+                    Name = _row.Name
+                };
+                accessoryTable.Add(accessotion);
             }
         }
-        public void SelectTable(string name, Dictionary<string, string> where)
+        public void SelectTable(string name, string where)
         {
-           
             if (name == "product")
             {
-                var res = SelectProductTable(where);
-                foreach(var item in res)
+                foreach (var pro in productTable)
                 {
-                    Console.WriteLine(item.id);
-                    Console.WriteLine(item.name);
+                    if (pro.Name == where)
+                    {
+                        Console.WriteLine("id: " + pro.Id + "; name: " + pro.Name + "; categoryId: " + pro.CategoryId);
+                    }
                 }
                 
             }
             else if (name == "category")
             {
-                var res = SelectProductTable(where);
-                foreach (var item in res)
+                foreach (var cate in categoryTable)
                 {
-                    Console.WriteLine(item.id);
-                    Console.WriteLine(item.name);
+                    if (cate.Name == where)
+                    {
+                        Console.WriteLine("id: " + cate.Id + "; name: " + cate.Name);
+                    }
                 }
             }
             else if (name == "accessotion")
             {
-                var res = SelectProductTable(where);
-                foreach (var item in res)
+                foreach (var acc in categoryTable)
                 {
-                    Console.WriteLine(item.id);
-                    Console.WriteLine(item.name);
-                }
-            }
-
-        }
-
-        public void UpdateTable(string name, Dictionary<string, string> row)
-        {
-            int id = int.Parse(row["id"]);
-            string nameColumn = row["nameColumn"];
-            string value = row["value"];
-
-            if(name=="product")
-            {
-                foreach(Product p in productTable)
-                {
-                    if (p.id == id)
+                    if (acc.Name == where)
                     {
-                        if(nameColumn=="name")
-                        {
-                            p.name = value;
-                        }   
-                    }
-                }
-            }
-            else if(name=="category")
-            {
-                foreach (Category c in categoryTable)
-                {
-                    if (c.id == id)
-                    {
-                        if (nameColumn == "name")
-                        {
-                            c.name = value;
-                        }  
-                    }
-                }
-            }
-            else if(name=="accessotion")
-            {
-                foreach (Accessotion a in accessoryTable)
-                {
-                    if (a.id == id)
-                    {
-                        if (nameColumn == "name")
-                        {
-                            a.name = value;
-                        }
+                        Console.WriteLine("id: " + acc.Id + "; name: " + acc.Name);
                     }
                 }
             }
         }
 
-        public void DeleteTable(string name, Dictionary<string, string> row)
+        public void UpdateTable(string name, BaseObj row)
         {
-            int id = int.Parse(row["id"]);
             if (name == "product")
             {
-                var arr = productTable;
-                foreach (Product p in arr)
+                Product _row = (Product)row;
+                foreach(var pro in productTable)
                 {
-                    if (p.id == id)
+                    if(pro.Id == _row.Id)
                     {
-                        productTable = productTable.Where(s => s.id != id).ToList();
+                        pro.Id = _row.Id;
+                        pro.Name = _row.Name;
+                        pro.CategoryId = _row.CategoryId;
                     }
                 }
             }
             else if (name == "category")
             {
-                var arr = categoryTable;
-                foreach (Category c in arr)
+                Category _row = (Category)row;
+                foreach (var cate in productTable)
                 {
-                    if (c.id == id)
+                    if (cate.Id == _row.Id)
                     {
-                        categoryTable = categoryTable.Where(s => s.id != id).ToList();
+                        cate.Id = _row.Id;
+                        cate.Name = _row.Name;
                     }
                 }
             }
             else if (name == "accessotion")
             {
-                var arr = accessoryTable;
-                foreach (Accessotion a in arr)
+                Accessotion _row = (Accessotion)row;
+                foreach (var acc in productTable)
                 {
-                    if (a.id == id)
+                    if (acc.Id == _row.Id)
                     {
-                        accessoryTable = accessoryTable.Where(s => s.id != id).ToList();
+                        acc.Id = _row.Id;
+                        acc.Name = _row.Name;
+                    }
+                }
+            }
+        }
+
+
+        public void DeleteTable(string name, int id)
+        {
+            
+            if (name == "product")
+            {
+                var proTable = productTable;
+                foreach (Product p in proTable)
+                {
+                    if (p.Id == id)
+                    {
+                        productTable = productTable.Where(pro => pro.Id != id).ToList();
+                    }
+                }
+            }
+            else if (name == "category")
+            {
+                var cateTable = categoryTable;
+                foreach (Category c in cateTable)
+                {
+                    if (c.Id == id)
+                    {
+                        categoryTable = categoryTable.Where(cate => cate.Id != id).ToList();
+                    }
+                }
+            }
+            else if (name == "accessotion")
+            {
+                var accessTable = accessoryTable;
+                foreach (Accessotion acc in accessTable)
+                {
+                    if (acc.Id == id)
+                    {
+                        accessoryTable = accessoryTable.Where(acc => acc.Id != id).ToList();
                     }
                 }
             }
@@ -174,190 +178,42 @@ namespace Demo_oop.dao
             accessoryTable.Clear();
         }
 
-        public void UpdateTableById(int id, Dictionary<string, string> row)
+        public void UpdateTableById(int id, BaseObj row)
         {
-            foreach(var pro in productTable)
+            string typeObj = row.GetType().Name.ToLower();
+            if(typeObj == "product")
             {
-                if (pro.id == id)
+                foreach(var pro in productTable)
                 {
-                    foreach (string key in row.Keys)
+                    if(pro.Id == id)
                     {
-                        if(row["table"] == "product")
-                        {
-                            foreach (string _key in row.Keys)
-                            {
-                                if (_key == "name")
-                                {
-                                    pro.name = row["name"];
-                                }
-                            }
-                                
-                        }
-                        else if (row["table"] == "category")
-                        {
-                            foreach (string _key in row.Keys)
-                            {
-                                if (_key == "name")
-                                {
-                                    pro.name = row["name"];
-                                }
-                            }
-
-                        }
-                        else if (row["table"] == "accessotion")
-                        {
-                            foreach (string _key in row.Keys)
-                            {
-                                if (_key == "name")
-                                {
-                                    pro.name = row["name"];
-                                }
-                            }
-                        }
-
+                        pro.Name = row.Name;
+                        pro.CategoryId = ((Product)row).CategoryId;
                     }
                 }
             }
-            
+            else if (typeObj == "category")
+            {
+                foreach (var cate in categoryTable)
+                {
+                    if (cate.Id == id)
+                    {
+                        cate.Name = row.Name;
+                    }
+                }
+            }
+            else if (typeObj == "accessotion")
+            {
+                foreach (var acc in accessoryTable)
+                {
+                    if (acc.Id == id)
+                    {
+                        acc.Name = row.Name;
+                    }
+                }
+            }
         }
 
-
-        private List<Product> SelectProductTable(Dictionary<string, string> where)
-        {
-
-            string _operator = where["operator"];
-            string nameColumn = where["name"];
-            string value = where["value"];
-  
-            List<Product> res = null;
-            if (_operator == "lt")
-            {
-                if (nameColumn == "id")
-                {
-                    int i_value = int.Parse(value);
-                    res = productTable.Where(s => s.id < i_value).ToList();
-                }
-            }
-            else if(_operator =="gt")
-            {
-                if (nameColumn == "id")
-                {
-                    int i_value = int.Parse(value);
-                    res = productTable.Where(s => s.id > i_value).ToList();
-                }
-            }
-            else if(_operator=="eq")
-            {
-                if (nameColumn == "id")
-                {
-                    int i_value = int.Parse(value);
-                    res = productTable.Where(s => s.id == i_value).ToList();
-                }
-                else if (nameColumn == "name")
-                {
-                    res = productTable.Where(s => s.name == value).ToList();
-                }
-            }
-            else if(_operator == "contains")
-            {
-                if (nameColumn == "name")
-                {
-                    res = productTable.Where(s => s.name.Contains(value)).ToList();
-                }
-            }
-            return res;
-        }
-
-        private List<Category> SelectCategoryTable(Dictionary<string, string> where)
-        {
-
-            string _operator = where["operator"];
-            string nameColumn = where["name"];
-            string value = where["value"];
-
-            List<Category> res = null;
-            if (_operator == "lt")
-            {
-                if (nameColumn == "id")
-                {
-                    int i_value = int.Parse(value);
-                    res = categoryTable.Where(s => s.id < i_value).ToList();
-                }
-            }
-            else if (_operator == "gt")
-            {
-                if (nameColumn == "id")
-                {
-                    int i_value = int.Parse(value);
-                    res = categoryTable.Where(s => s.id > i_value).ToList();
-                }
-            }
-            else if (_operator == "eq")
-            {
-                if (nameColumn == "id")
-                {
-                    int i_value = int.Parse(value);
-                    res = categoryTable.Where(s => s.id == i_value).ToList();
-                }
-                else if (nameColumn == "name")
-                {
-                    res = categoryTable.Where(s => s.name == value).ToList();
-                }
-            }
-            else if (_operator == "contains")
-            {
-                if (nameColumn == "name")
-                {
-                    res = categoryTable.Where(s => s.name.Contains(value)).ToList();
-                }
-            }
-            return res;
-        }
-        private List<Accessotion> SelectAccessotionTable(Dictionary<string, string> where)
-        {
-
-            string _operator = where["operator"];
-            string nameColumn = where["name"];
-            string value = where["value"];
-
-            List<Accessotion> res = null;
-            if (_operator == "lt")
-            {
-                if (nameColumn == "id")
-                {
-                    int i_value = int.Parse(value);
-                    res = accessoryTable.Where(s => s.id < i_value).ToList();
-                }
-            }
-            else if (_operator == "gt")
-            {
-                if (nameColumn == "id")
-                {
-                    int i_value = int.Parse(value);
-                    res = accessoryTable.Where(s => s.id > i_value).ToList();
-                }
-            }
-            else if (_operator == "eq")
-            {
-                if (nameColumn == "id")
-                {
-                    int i_value = int.Parse(value);
-                    res = accessoryTable.Where(s => s.id == i_value).ToList();
-                }
-                else if (nameColumn == "name")
-                {
-                    res = accessoryTable.Where(s => s.name == value).ToList();
-                }
-            }
-            else if (_operator == "contains")
-            {
-                if (nameColumn == "name")
-                {
-                    res = accessoryTable.Where(s => s.name.Contains(value)).ToList();
-                }
-            }
-            return res;
-        }
 
         public List<Product> GetProductTalbe()
         {

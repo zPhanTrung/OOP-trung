@@ -9,31 +9,31 @@ namespace Demo_oop.demo
 {
     public class DatabaseDemo
     {
+        Database instants = Database.Instants();
         public void InsertTableTest()
         {
-            Database.Instants().InsertTable("product",
-                new Dictionary<string, string>() { { "id", "11" }, { "name", "newProduct" } });
-            Database.Instants().InsertTable("category",
-                new Dictionary<string, string>() { { "id", "11" }, { "name", "newCategory" } });
-            Database.Instants().InsertTable("accessotion",
-                new Dictionary<string, string>() { { "id", "11" }, { "name", "newAccessotion" } });
+            instants.InsertTable("product", new Product { Id = 11, Name = "product_insertTest", CategoryId = 10 });
+            instants.InsertTable("category", new Category { Id = 11, Name = "product_insertTest" });
+            instants.InsertTable("accessotion", new Accessotion { Id = 11, Name = "product_insertTest" });
         }
         public void UdpateTableTest()
         {
-            Database.Instants().UpdateTable("product",
-                new Dictionary<string, string>() { { "id", "1" }, { "nameColumn", "name" },{ "value", "product_updated" } });
-            Database.Instants().UpdateTableById(4, 
-                new Dictionary<string, string>(){ { "table","product" },{"name","update_by_id" } });
+            instants.UpdateTable("product", new Product { Id=5, Name="upudateTableTest", CategoryId=1});
+            instants.UpdateTable("category", new Category { Id = 5, Name = "upudateTableTest" });
+            instants.UpdateTable("accessotion", new Accessotion { Id = 5, Name = "upudateTableTest" });
+            instants.UpdateTableById(9, new Product { Name = "updateById", CategoryId = 8 });
+            instants.UpdateTableById(9, new Category { Name = "updateById"});
+            instants.UpdateTableById(9, new Accessotion { Name = "updateById"});
         }
         public void SelectTableTest()
         {
-            Database.Instants().SelectTable("product",
-                new Dictionary<string, string>() { { "value", "5" }, { "operator", "gt" }, { "name", "id" } });
+            
         }
         public void DeleteTableTest()
         {
-            Database.Instants().DeleteTable("product", 
-                new Dictionary<string, string>() { { "id", "3"} });
+            instants.DeleteTable("product", 4);
+            instants.DeleteTable("category", 4);
+            instants.DeleteTable("accessotion", 4);
         }
         public void TruncateTableTest()
         {
@@ -42,76 +42,62 @@ namespace Demo_oop.demo
 
         public void InitDatabase()
         {
-            var instant = Database.Instants();
-            instant.InsertTable("product", new Dictionary<string, string>() { { "id", "1" }, { "name", "product_1" } });
-            instant.InsertTable("product", new Dictionary<string, string>() { { "id", "2" }, { "name", "product_2" } });
-            instant.InsertTable("product", new Dictionary<string, string>() { { "id", "3" }, { "name", "product_3" } });
-            instant.InsertTable("product", new Dictionary<string, string>() { { "id", "4" }, { "name", "product_4" } });
-            instant.InsertTable("product", new Dictionary<string, string>() { { "id", "5" }, { "name", "product_5" } });
-            instant.InsertTable("product", new Dictionary<string, string>() { { "id", "6" }, { "name", "product_6" } });
-            instant.InsertTable("product", new Dictionary<string, string>() { { "id", "7" }, { "name", "product_7" } });
-            instant.InsertTable("product", new Dictionary<string, string>() { { "id", "8" }, { "name", "product_8" } });
-            instant.InsertTable("product", new Dictionary<string, string>() { { "id", "9" }, { "name", "product_9" } });
-            instant.InsertTable("product", new Dictionary<string, string>() { { "id", "10" }, { "name", "product_10" } });
+            instants.InsertTable("product", new Product{Id=1, Name="product_1", CategoryId=1});
+            instants.InsertTable("product", new Product{Id=2, Name="product_2", CategoryId=2});
+            instants.InsertTable("product", new Product{Id=3, Name="product_3", CategoryId=3});
+            instants.InsertTable("product", new Product{Id=4, Name="product_4", CategoryId=4});
+            instants.InsertTable("product", new Product{Id=5, Name="product_5", CategoryId=5});
+            instants.InsertTable("product", new Product{Id=6, Name="product_6", CategoryId=2});
+            instants.InsertTable("product", new Product{Id=7, Name="product_7", CategoryId=6});
+            instants.InsertTable("product", new Product{Id=8, Name="product_8", CategoryId=7});
+            instants.InsertTable("product", new Product{Id=9, Name="product_9", CategoryId=8});
+            instants.InsertTable("product", new Product{Id=10, Name="product_10", CategoryId=9});
 
-            instant.InsertTable("category", new Dictionary<string, string>() { { "id", "1" }, { "name", "category_1" } });
-            instant.InsertTable("category", new Dictionary<string, string>() { { "id", "2" }, { "name", "category_2" } });
-            instant.InsertTable("category", new Dictionary<string, string>() { { "id", "3" }, { "name", "category_3" } });
-            instant.InsertTable("category", new Dictionary<string, string>() { { "id", "4" }, { "name", "category_4" } });
-            instant.InsertTable("category", new Dictionary<string, string>() { { "id", "5" }, { "name", "category_5" } });
-            instant.InsertTable("category", new Dictionary<string, string>() { { "id", "6" }, { "name", "category_6" } });
-            instant.InsertTable("category", new Dictionary<string, string>() { { "id", "7" }, { "name", "category_7" } });
-            instant.InsertTable("category", new Dictionary<string, string>() { { "id", "8" }, { "name", "category_8" } });
-            instant.InsertTable("category", new Dictionary<string, string>() { { "id", "9" }, { "name", "category_9" } });
-            instant.InsertTable("category", new Dictionary<string, string>() { { "id", "10" }, { "name", "category_10" } });
+            instants.InsertTable("category", new Category{Id=1, Name="category_1"});
+            instants.InsertTable("category", new Category{Id=2, Name="category_2"});
+            instants.InsertTable("category", new Category{Id=3, Name="category_3"});
+            instants.InsertTable("category", new Category{Id=4, Name="category_4"});
+            instants.InsertTable("category", new Category{Id=5, Name="category_5"});
+            instants.InsertTable("category", new Category{Id=6, Name="category_6"});
+            instants.InsertTable("category", new Category{Id=7, Name="category_7"});
+            instants.InsertTable("category", new Category{Id=8, Name="category_8"});
+            instants.InsertTable("category", new Category{Id=9, Name="category_9"});
+            instants.InsertTable("category", new Category{Id=10, Name="category_10"});
 
-            instant.InsertTable("accessotion", new Dictionary<string, string>() { { "id", "1" }, { "name", "accessotion_1" } });
-            instant.InsertTable("accessotion", new Dictionary<string, string>() { { "id", "2" }, { "name", "accessotion_2" } });
-            instant.InsertTable("accessotion", new Dictionary<string, string>() { { "id", "3" }, { "name", "accessotion_3" } });
-            instant.InsertTable("accessotion", new Dictionary<string, string>() { { "id", "4" }, { "name", "accessotion_4" } });
-            instant.InsertTable("accessotion", new Dictionary<string, string>() { { "id", "5" }, { "name", "accessotion_5" } });
-            instant.InsertTable("accessotion", new Dictionary<string, string>() { { "id", "6" }, { "name", "accessotion_6" } });
-            instant.InsertTable("accessotion", new Dictionary<string, string>() { { "id", "7" }, { "name", "accessotion_7" } });
-            instant.InsertTable("accessotion", new Dictionary<string, string>() { { "id", "8" }, { "name", "accessotion_8" } });
-            instant.InsertTable("accessotion", new Dictionary<string, string>() { { "id", "9" }, { "name", "accessotion_9" } });
-            instant.InsertTable("accessotion", new Dictionary<string, string>() { { "id", "10" }, { "name", "accessotion_10" } });
-
-
+            instants.InsertTable("accessotion", new Accessotion{Id=1, Name="accessotion_1"});
+            instants.InsertTable("accessotion", new Accessotion{Id=2, Name="accessotion_2"} );
+            instants.InsertTable("accessotion", new Accessotion{Id=3, Name="accessotion_3"} );
+            instants.InsertTable("accessotion", new Accessotion{Id=4, Name="accessotion_4"} );
+            instants.InsertTable("accessotion", new Accessotion{Id=5, Name="accessotion_5"} );
+            instants.InsertTable("accessotion", new Accessotion{Id=6, Name="accessotion_6"} );
+            instants.InsertTable("accessotion", new Accessotion{Id=7, Name="accessotion_7"} );
+            instants.InsertTable("accessotion", new Accessotion{Id=8, Name="accessotion_8"} );
+            instants.InsertTable("accessotion", new Accessotion{Id=9, Name="accessotion_9"} );
+            instants.InsertTable("accessotion", new Accessotion{Id=10, Name="accessotion_10"});
         }
         public void PrintTableTest()
         {
             InitDatabase();
+            InsertTableTest();
             UdpateTableTest();
             DeleteTableTest();
             //TruncateTableTest();
 
-            var products = Database.Instants().GetProductTalbe();
-            var categorys = Database.Instants().GetCategoryTalbe();
-            var accessotions = Database.Instants().GetAccessotionTalbe();
+            var products = instants.GetProductTalbe();
+            var categorys = instants.GetCategoryTalbe();
+            var accessotions = instants.GetAccessotionTalbe();
 
             Console.WriteLine("product table");
-            foreach (var item in products)
-            {
-                
-                Console.Write(item.id + "   ");
-                Console.WriteLine(item.name);
-            }
+            foreach (var pro in products)
+                Console.WriteLine("id: " + pro.Id + "; name: " + pro.Name + "; categoryId: " + pro.CategoryId);
 
             Console.WriteLine("category table");
-            foreach (var item in categorys)
-            {
-                
-                Console.Write(item.id + "   ");
-                Console.WriteLine(item.name);
-            }
+            foreach (var cate in categorys)
+               Console.WriteLine("id: " + cate.Id + "; name: " + cate.Name);
 
             Console.WriteLine("accessotion table");
-            foreach (var item in accessotions)
-            {
-                Console.Write(item.id + "   ");
-                Console.WriteLine(item.name);
-            }
-
+            foreach (var acc in accessotions)
+                Console.WriteLine("id: " + acc.Id + "; name: " + acc.Name);
 
         }
     }
